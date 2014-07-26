@@ -515,7 +515,6 @@ class CfgUnitInsignia {
 		displayName = "Alpha 3";
 		author = "F3 Framework";
 		texture = "f\assignGear\insignia\A3.paa";
-		textureVehicle = ""; // unused.
 	}
 	//Bravo
 	class BBadge
@@ -541,7 +540,6 @@ class CfgUnitInsignia {
 		displayName = "Bravo 3";
 		author = "F3 Framework";
 		texture = "f\assignGear\insignia\B3.paa";
-		textureVehicle = ""; // unused.
 	}
 	//Charlie
 	class CBadge
@@ -567,13 +565,11 @@ class CfgUnitInsignia {
 		displayName = "Charlie 3";
 		author = "F3 Framework";
 		texture = "f\assignGear\insignia\C3.paa";
-		textureVehicle = ""; // unused.
 	}
 	class MedicBadge
 	{
 		displayName = "Medic";
 		author = "F3 Framework";
 		texture = "f\assignGear\insignia\MBadge.paa";
-		textureVehicle = ""; // unused.
 	}
 }

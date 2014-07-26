@@ -483,3 +483,97 @@ class CfgFunctions
 };
 
 // ============================================================================================
+
+
+// ============================================================================================
+
+// F3 - Custom Insignia
+
+
+class CfgUnitInsignia {
+	//Alpha
+	class ABadge
+	{
+		displayName = "Alpha";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\A.paa";
+	}
+	class A1Badge
+	{
+		displayName = "Alpha 1";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\A1.paa";
+	}
+	class A2Badge
+	{
+		displayName = "Alpha 2";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\A2.paa";
+	}
+	class A3Badge
+	{
+		displayName = "Alpha 3";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\A3.paa";
+		textureVehicle = ""; // unused.
+	}
+	//Bravo
+	class BBadge
+	{
+		displayName = "Bravo";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\B.paa";
+	}
+	class B1Badge
+	{
+		displayName = "Bravo 1";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\B1.paa";
+	}
+	class B2Badge
+	{
+		displayName = "Bravo 2";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\B2.paa";
+	}
+	class B3Badge
+	{
+		displayName = "Bravo 3";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\B3.paa";
+		textureVehicle = ""; // unused.
+	}
+	//Charlie
+	class CBadge
+	{
+		displayName = "Charlie";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\C.paa";
+	}
+	class C1Badge
+	{
+		displayName = "Charlie 1";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\C1.paa";
+	}
+	class C2Badge
+	{
+		displayName = "Charlie 2";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\C2.paa";
+	}
+	class C3Badge
+	{
+		displayName = "Charlie 3";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\C3.paa";
+		textureVehicle = ""; // unused.
+	}
+	class MedicBadge
+	{
+		displayName = "Medic";
+		author = "F3 Framework";
+		texture = "f\assignGear\insignia\MBadge.paa";
+		textureVehicle = ""; // unused.
+	}
+}

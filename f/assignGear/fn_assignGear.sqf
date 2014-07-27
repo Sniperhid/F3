@@ -126,17 +126,17 @@ if (_faction in ["blu_g_f","opf_g_f","ind_g_f"]) then {
 
 // ====================================================================================
 
-// INSIGNIA
-// This block will give units insignia on their uniforms. 
-
-#include "f_assignInsignia.sqf"
-
-// ====================================================================================
-
 // This variable simply tracks the progress of the gear assignation process, for other
 // scripts to reference.
 
 _unit setVariable ["f_var_assignGear_done",true,true];
+
+// ====================================================================================
+
+// INSIGNIA
+// This block will give units insignia on their uniforms. 
+
+#include "f_assignInsignia.sqf"
 
 // DEBUG
 

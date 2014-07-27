@@ -183,5 +183,9 @@ switch (_typeofUnit) do
 };
 
 if (_badge != "") then {
-	[_unit,_badge] call BIS_fnc_setUnitInsignia;
+	// Workaround for SetGlobalTexture not working before mission start.
+	[_unit,_badge] spawn {
+		waitUntil{time>1};
+		[_this select 0,_this select 1] call BIS_fnc_setUnitInsignia;
+	};
 };

@@ -1,8 +1,10 @@
 // F3 - Assign Insignia
 // Credits: Please see the F3 online manual (http://www.ferstaberinde.com/f3/en/)
 // ====================================================================================
-private ["_group","_badge","_groupBadges"];
 
+private ["_group","_badge","_groupBadges","_roleBadge"];
+
+_badge = ""; 
 
 
 // Note all badges must be defined in description.ext or be included your modpack.
@@ -11,19 +13,40 @@ private ["_group","_badge","_groupBadges"];
 // This variable stores the final badge to use which will applied at the end of this script.
 // A default badge can be set by changing this.
 
-_badge = ""; 
 
+
+// ===================================================================================
+
+// Assign Insignia based on type of the unit.
+
+_roleBadge = switch (_typeofUnit) do
+{
+
+// INSIGNIA: MEDIC
+	case "m":
+	{
+		switch (_faction) do
+		{	
+			case "blu_f": {"NATO_Medic_Badge"};
+			case "opf_f": {"CSAT_Medic_Badge"};
+			case "ind_f": {"AAF_Medic_Badge"};
+			default {"NATO_Medic_Badge"};			
+		};
+	};
+	default {""};
+};
 
 
 // ====================================================================================
 
 // This array stores a list of groups and the corresponding badge they will receive.
 // Bin by faction (lowers numbers of groups for each unit to be grouped by too!).
+
 _groupBadges = [];
 
 switch (_faction) do
 {	
-	case  "blu_f" : {
+	case "blu_f" : {
 		_groupBadges = [
 			["GrpNATO_ASL","NATO_ASL_Badge"],
 			["GrpNATO_A1","NATO_A1_Badge"],
@@ -41,7 +64,7 @@ switch (_faction) do
 			["GrpNATO_DC","NATO_DC_Badge"]
 		];
 	};
-	case  "opf_f": {
+	case "opf_f": {
 		_groupBadges = [
 			["GrpCSAT_ASL","CSAT_ASL_Badge"],
 			["GrpCSAT_A1","CSAT_A1_Badge"],
@@ -59,7 +82,7 @@ switch (_faction) do
 			["GrpCSAT_DC","CSAT_DC_Badge"]
 		];
 	};
-	case  "ind_f": {
+	case "ind_f": {
 		_groupBadges = [
 			["GrpAAF_ASL","AAF_ASL_Badge"],
 			["GrpAAF_A1","AAF_A1_Badge"],
@@ -77,7 +100,7 @@ switch (_faction) do
 			["GrpAAF_DC","AAF_DC_Badge"]
 		];
 	};
-	case  "blu_g_f" : {
+	case "blu_g_f" : {
 		_groupBadges = [
 			["GrpFIA_ASL","NATO_ASL_Badge"],
 			["GrpFIA_A1","NATO_A1_Badge"],
@@ -95,7 +118,7 @@ switch (_faction) do
 			["GrpFIA_DC","NATO_DC_Badge"]
 		];
 	};
-	case  "opf_g_f" :{
+	case "opf_g_f" :{
 		_groupBadges = [
 			["GrpOFIA_ASL","NATO_ASL_Badge"],
 			["GrpOFIA_A1","NATO_A1_Badge"],
@@ -113,7 +136,7 @@ switch (_faction) do
 			["GrpOFIA_DC","NATO_DC_Badge"]
 		];
 	};
-	case  "ind_g_f" :{
+	case "ind_g_f" :{
 		_groupBadges = [
 			["GrpIFIA_ASL","NATO_ASL_Badge"],
 			["GrpIFIA_A1","NATO_A1_Badge"],
@@ -134,7 +157,8 @@ switch (_faction) do
 
 };
 
-
+// ====================================================================================
+// END OF CONFIGURABLE SETTINGS - BELOW ASSIGNS THE INSIGNIAS
 // ====================================================================================
 
 // Loop through the groups and match badges to the group _unit belongs to. Due to the groups being variables this requires calling formatted at runtime code.
@@ -155,32 +179,13 @@ _group = (group _unit);
 
 // ====================================================================================
 
-// The following block will assign insignia based on the unit to role.
+//  Let the unit insignia override the group insignia.
 
-
-switch (_typeofUnit) do
-{
-
-// INSIGNIA: MEDIC
-	case "m":
-	{
-		switch (_faction) do
-		{	
-			case  "blu_f": {
-				_badge = "NATO_Medic_Badge";
-			};
-			case  "opf_f": {
-				_badge = "CSAT_Medic_Badge";
-			};
-			case  "ind_f": {
-				_badge = "AAF_Medic_Badge";
-			};
-			default {
-				_badge = "NATO_Medic_Badge";
-			};			
-		};
-	};
+if (_roleBadge != "") then {
+	_badge = _roleBadge;
 };
+
+// Apply the insignia.
 
 if (_badge != "") then {
 	// Workaround for SetGlobalTexture not working before mission start.

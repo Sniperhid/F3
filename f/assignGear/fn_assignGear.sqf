@@ -18,8 +18,19 @@ _faction = toLower (faction _unit);
 
 // ====================================================================================
 
+// INSIGNIA
+// This block will give units insignia on their uniforms. 
+[_unit,_typeofUnit] spawn {
+	#include "f_assignInsignia.sqf"
+};
+
+
+// ====================================================================================
+
 // DECIDE IF THE SCRIPT SHOULD RUN
 // Depending on locality the script decides if it should run
+
+
 
 if !(local _unit) exitWith {};
 
@@ -131,12 +142,6 @@ if (_faction in ["blu_g_f","opf_g_f","ind_g_f"]) then {
 
 _unit setVariable ["f_var_assignGear_done",true,true];
 
-// ====================================================================================
-
-// INSIGNIA
-// This block will give units insignia on their uniforms. 
-
-#include "f_assignInsignia.sqf"
 
 // DEBUG
 

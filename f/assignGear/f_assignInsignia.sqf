@@ -3,7 +3,6 @@
 // ====================================================================================
 
 private ["_group","_badge","_groupBadges","_roleBadge","_unit","_typeofUnit"];
-private ["_class","_cfgTexture","_texture","_index"];
 
 _badge = ""; 
 _unit = _this select 0;
@@ -37,7 +36,6 @@ _roleBadge = switch (_typeofUnit) do
 	};
 	default {""};
 };
-
 
 // ====================================================================================
 
@@ -178,7 +176,6 @@ _group = (group _unit);
 	};
 } forEach _groupBadges;
 
-
 // ====================================================================================
 
 //  Let the unit insignia override the group insignia.
@@ -189,9 +186,13 @@ if (_roleBadge != "") then {
 
 // Apply the insignia.
 if (_badge != "") then {
+	// spawn to avoid waitUntil bug.
+	private["_index","_texture","_cfgTexture"];
+
 	// Wait till they have the proper uniform assigned.
 	waitUntil{_unit getVariable ["f_var_assignGear_done",false]};
-	
+	waitUntil{(uniform _unit) != ""};
+
 	// Replicate behaviour of setInsignia
 	_cfgTexture = [["CfgUnitInsignia",_badge],configfile] call bis_fnc_loadclass;
 	if (_cfgTexture == configfile) exitwith {["'%1' not found in CfgUnitInsignia",_badge] call bis_fnc_error; false};

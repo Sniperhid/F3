@@ -349,20 +349,13 @@ case "KeyDown":
         case 25:
 		{
             f_cam_muteSpectators = !f_cam_muteSpectators;
-            switch (f_var_radios) do {
-              // ACRE
-              case 1: {
-                [f_cam_muteSpectators] call acre_api_fnc_setSpectator;
-              };
-              // TFR
-              case 2: {
-                [player, f_cam_muteSpectators] call TFAR_fnc_forceSpectator;
-              };
-              case 3: {
-                [f_cam_muteSpectators] call acre_api_fnc_setSpectator;
-              };
-
-            };
+			
+			if (!isNil "acre_api_fnc_setSpectator") then {
+				[f_cam_muteSpectators] call acre_api_fnc_setSpectator;
+			};
+			if (!isNil "TFAR_fnc_forceSpectator") then {
+				[player, f_cam_muteSpectators] call TFAR_fnc_forceSpectator;
+			};
         };
         case 29: // CTRL
         {

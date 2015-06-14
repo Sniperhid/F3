@@ -135,8 +135,6 @@ if(!f_radios_settings_acre2_disableRadios) then {
 
 	private ["_presetArray","_presetLRArray","_radioSR","_radioLR","_radioExtra","_hasSR","_hasLR","_hasExtra","_groupID","_groupIDSplit","_groupChannelIndex","_groupLRChannelIndex","_groupName"];
 	
-	waitUntil {uiSleep 0.1; [] call acre_api_fnc_isInitialized};
-
 	_presetArray = switch (side _unit) do {
   		case blufor: {f_radios_settings_acre2_sr_groups_blufor};
 	  	case opfor: {f_radios_settings_acre2_sr_groups_opfor};
@@ -150,7 +148,41 @@ if(!f_radios_settings_acre2_disableRadios) then {
 	  	case independent: {f_radios_settings_acre2_lr_groups_indfor};
 		default {f_radios_settings_acre2_lr_groups_indfor};
 	};
+	
+	_groupID = groupID (group _unit);
+	_groupIDSplit = [_groupID, " "] call bis_fnc_splitString;
 
+	_groupChannelIndex = -1;
+  	_groupLRChannelIndex = -1;
+
+  	if ((count _groupIDSplit) > 1) then {
+		_groupName = toUpper (_groupIDSplit select (count _groupIDSplit - 1));
+		if ((count _groupIDSplit) > 2) then {
+			_groupName = toUpper (_groupIDSplit select (count _groupIDSplit - 2));
+		};
+
+		{
+			if (_groupName in (_x select 1)) exitWith { _groupChannelIndex = _forEachIndex; };
+		} forEach _presetArray;
+
+		{
+			if (_groupName in (_x select 1)) exitWith { _groupLRChannelIndex = _forEachIndex; };
+		} forEach _presetLRArray;
+	};
+
+	if (_groupChannelIndex == -1) then {
+		player sideChat format["[F3 ACRE2] Warning: Unknown group for short-range channel defaults (%1)", _groupID];
+		_groupChannelIndex = 1;
+	};
+
+	if (_groupLRChannelIndex == -1) then {
+  		player sideChat format["[F3 ACRE2] Warning: Unknown group for long-range channel defaults (%1)", _groupID];
+	  	_groupLRChannelIndex = 1;
+	};
+	
+	
+	waitUntil {uiSleep 0.1; [] call acre_api_fnc_isInitialized};
+	
 	_radioSR = [f_radios_settings_acre2_standardSHRadio] call acre_api_fnc_getRadioByType;
 	_radioLR = [f_radios_settings_acre2_standardLRRadio] call acre_api_fnc_getRadioByType;
 	_radioExtra = [f_radios_settings_acre2_extraRadio] call acre_api_fnc_getRadioByType;
@@ -158,40 +190,7 @@ if(!f_radios_settings_acre2_disableRadios) then {
 	_hasSR = ((!isNil "_radioSR") && {_radioSR != ""});
 	_hasLR = ((!isNil "_radioLR") && {_radioLR != ""});
 	_hasExtra = ((!isNil "_radioExtra") && {_radioExtra != ""});
-
-	_groupID = groupID (group _unit);
-	_groupIDSplit = [_groupID, " "] call bis_fnc_splitString;
-
-	_groupChannelIndex = -1;
-  	_groupLRChannelIndex = -1;
-
-  	if ((count _groupIDSplit) > 2) then {
-		_groupName = toUpper (_groupIDSplit select (count _groupIDSplit - 1));
-
-		if (_hasSR) then {
-		  	{
-		  		if (_groupName in (_x select 1)) exitWith { _groupChannelIndex = _forEachIndex; };
-		  	} forEach _presetArray;
-	  	};
-
-	  	if (_hasLR || _hasExtra) then {
-		  	{
-		  		if (_groupName in (_x select 1)) exitWith { _groupLRChannelIndex = _forEachIndex; };
-		  	} forEach _presetLRArray;
-	  	};
-	};
-
-	if (_groupChannelIndex == -1) then {
-		player sideChat format["[F3 ACRE2] Warning: Unknown group for short-range channel defaults (%1)", _groupID];
-		_groupChannelIndex = 0;
-	};
-
-	if (_groupLRChannelIndex == -1 && {(_hasLR || _hasExtra)}) then {
-  		player sideChat format["[F3 ACRE2] Warning: Unknown group for long-range channel defaults (%1)", _groupID];
-	  	_groupLRChannelIndex = 0;
-	};
-
-
+	
 	if (_hasSR) then {
 		if (f_var_debugMode == 1) then
 		{
@@ -216,5 +215,69 @@ if(!f_radios_settings_acre2_disableRadios) then {
 		};
 	    [_radioExtra, (_groupLRChannelIndex + 1)] call acre_api_fnc_setRadioChannel;
 	};
+	
+	// ACRE2 BRIEFING PAGE
+	_briefAssignedRadios = "<br/><br/><font size='16'>MY ASSIGNED RADIOS</font><br/>";
+	_symbolForPresent = "<font color='#ff4747'>*</font>";
+	_ltext = format["<font size='11'>Legend: %1 is used to denote a channel you are suppose to be on.<br/>Your radios will be automatically set to the coloured channels.<br/>I can speak any languages that are <font color='#ff4747'>highlighted</font>.</font><br/><br/>",_symbolForPresent];
+
+	_ltext = _ltext + "<font size='16'>BABEL - LANGUAGES</font><br/>Languages spoken in this area:<br/>";
+	_languagesSpoken = [];
+	switch (side _unit) do {
+		case blufor: { _languagesSpoken = f_radios_settings_acre2_language_blufor; };
+		case opfor: { _languagesSpoken = f_radios_settings_acre2_language_opfor; };
+		case independent: { _languagesSpoken = f_radios_settings_acre2_language_indfor; };
+		default { _languagesSpoken = f_radios_settings_acre2_language_indfor; };
+	};
+
+	{
+	  if (_forEachIndex != 0) then {_ltext = _ltext + ", "; };
+	  if ((_x select 0) in _languagesSpoken) then {
+		_ltext = _ltext + format["<font color='#ff4747'>%1</font>",_x select 1];
+	  } else {
+		_ltext = _ltext + format["%1",_x select 1];
+	  };
+	} forEach f_radios_settings_acre2_languages;
+
+
+	_text = "<br/><font size='16'>RADIO SHORT RANGE CHANNEL LISTING</font><br />";
+	{
+		if ((_x select 1) isEqualTo []) exitWith {};
+		_channelLine = format["CHN %1 - %2 ",(_forEachIndex +1),(_x select 0)];
+		
+		if (_groupChannelIndex == _forEachIndex) then {
+			_channelLine = format[" %1 ",_symbolForPresent] + "<font color='#1AFF00'>" + _channelLine + "</font><br />";  
+		} else {
+			_channelLine = format["   "] + _channelLine + "<br />";
+		};
+		_text = _text + _channelLine;
+	} forEach _presetArray;
+
+	_text = _text + "<br/><font size='16'>RADIO LONG RANGE CHANNEL LISTING</font><br />";
+	{
+		if ((_x select 1) isEqualTo []) exitWith {};
+		_channelLine = format["CHN %1 - %2 ",(_forEachIndex +1),(_x select 0)];
+		
+		if (_groupLRChannelIndex == _forEachIndex) then {
+			_channelLine = format[" %1 ",_symbolForPresent] + "<font color='#0071FF'>" + _channelLine + "</font><br />";  
+		} else {
+			_channelLine = format["   "] + _channelLine + "<br />";
+		};
+		_text = _text + _channelLine;
+	} forEach _presetLRArray;
+
+	
+	if (_hasSR) then {
+		_briefAssignedRadios = _briefAssignedRadios + format["<font color='#1AFF00'>%1</font><br />",getText (configfile >> "CfgWeapons" >> f_radios_settings_acre2_standardSHRadio >> "displayName")];
+	};
+	if (_hasLR) then {
+		_briefAssignedRadios = _briefAssignedRadios + format["<font color='#0071FF'>%1</font><br />",getText (configfile >> "CfgWeapons" >> f_radios_settings_acre2_standardLRRadio >> "displayName")];
+	};
+	if (_hasExtra) then {
+		_briefAssignedRadios = _briefAssignedRadios + format["%1<br />",getText (configfile >> "CfgWeapons" >> f_radios_settings_acre2_extraRadio >> "displayName")];
+	};
+
+	//Provide instructions on the page. such as * to denote a channel you are suppose to be on, explain what the colours mean.
+	_unit createDiaryRecord ["diary", ["ACRE2", (_ltext + _briefAssignedRadios + _text)]]; 
 
 };

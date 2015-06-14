@@ -47,45 +47,24 @@ f_radios_settings_acre2_language_indfor = ["greek"];
 // Channel names and group defaults
 // first item in the array will correspond to the first channel
 // item definition: ["CHANNEL NAME", ["GROUP1 NAME", "GROUP2 NAME"]]
-// note that if using a 343 only the first 16 channels are available for the short-range array
 // also note these only work if f_radios_settings_acre2_disableFrequencySplit is set to false
+
 f_radios_settings_acre2_sr_groups_blufor = [
-	["Alpha",    ["ASL","A1","A2","A3"]],
-	["Bravo",    ["BSL","B1","B2","B3"]],
-	["Charlie",  ["CSL","C1","C2","C3"]],
-	["Delta",    ["CO","DC"]],
-	["Echo",     ["MMG1","HMG1"]],
-	["Foxtrot",  ["MAT1","HAT1"]],
-	["Golf",     ["MTR1"]],
-	["Hotel",    ["MSAM1","HSAM1"]],
-	["India",    ["ST1"]],
-	["Juliet",   ["DT1"]],
-	["Kilo",     ["ENG1"]],
-	["Lima",     ["IFV1","IFV2","IFV3","IFV4","IFV5","IFV6","IFV7","IFV8"]],
-	["Mike",     ["TNK1"]],
-	["November", ["TH1","TH2","TH3","T4","TH5","TH6","TH7","TH8"]],
-	["Oscar", 	 ["AH1"]],
-	["Papa", 	 []],
-	["Quebec", 	 []],
-	["Romeo",    []],
-	["Sierra",   []],
-	["Tango",    []],
-	["Uniform",  []],
-	["Victor",   []],
-	["Whiskey",  []],
-	["X-ray",    []],
-	["Yankee",   []],
-	["Zulu",     []]
+	["Alpha SQ",    ["ASL","A1","A2","A3"]],
+	["Bravo SQ",    ["BSL","B1","B2","B3"]],
+	["Charlie SQ",  ["CSL","C1","C2","C3"]],
+	["CO SQ",    ["CO","DC"]],
+	["ATTACH NET",     ["MMG1","HMG1","MAT1","HAT1","MTR1","MSAM1","HSAM1"]],
+	["IFV NET",     ["IFV1","IFV2","IFV3","IFV4","IFV5","IFV6","IFV7","IFV8"]],
+	["TANK NET",     ["TNK1"]],
+	["HELI NET", ["TH1","TH2","TH3","TH4","TH5","TH6","TH7","TH8"]]
 ];
 
 f_radios_settings_acre2_sr_groups_opfor = f_radios_settings_acre2_sr_groups_blufor;
 f_radios_settings_acre2_sr_groups_indfor = f_radios_settings_acre2_sr_groups_blufor;
 
 f_radios_settings_acre2_lr_groups_blufor = [
-	["Alpha",    []],
-	["Bravo",    []],
-	["Charlie",  []],
-	["Delta",
+	["Command",
 		[
 			"CO", "DC",
 			"ASL","BSL","CSL",
@@ -96,28 +75,9 @@ f_radios_settings_acre2_lr_groups_blufor = [
 			"AH1"
 		]
 	],
-	["Echo",     []],
-	["Foxtrot",  []],
-	["Golf",     []],
-	["Hotel",    []],
-	["India",    []],
-	["Juliet",   []],
-	["Kilo",     []],
-	["Lima",     []],
-	["Mike",     []],
-	["November", []],
-	["Oscar", 	 []],
-	["Papa", 	 []],
-	["Quebec", 	 []],
-	["Romeo",    []],
-	["Sierra",   []],
-	["Tango",    []],
-	["Uniform",  []],
-	["Victor",   []],
-	["Whiskey",  []],
-	["X-ray",    []],
-	["Yankee",   []],
-	["Zulu",     []]
+	["Alpha",    []],
+	["Bravo",    []],
+	["Charlie",  []]
 ];
 
 f_radios_settings_acre2_lr_groups_opfor = f_radios_settings_acre2_lr_groups_blufor;
